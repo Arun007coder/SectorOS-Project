@@ -22,8 +22,8 @@ OBJCOPY=$(SYSROOT)/bin/i686-elf-objcopy
 OBJDUMP=$(SYSROOT)/bin/i686-elf-objdump
 
 QEMU=qemu-system-i386
-QEMUFLAGS=-cdrom $(ISOFILE) -m 512M -boot d 
-QEMUDFLAGS=-s -S -daemonize
+QEMUFLAGS=-cdrom $(ISOFILE) -m 512M -boot d -enable-kvm
+QEMUDFLAGS=-s -S -daemonize -no-reboot -d int
 
 KERNEL_NAME=arthur
 OS_NAME=SectorOS
@@ -36,6 +36,17 @@ OBJECTS= $(SRCDIR)/boot/multiboot2.o \
 				$(SRCDIR)/kernel/kernel.o \
 				$(SRCDIR)/common/debug.o \
 				$(SRCDIR)/common/printf.o \
+				$(SRCDIR)/common/string.o \
+				$(SRCDIR)/common/errno.o \
+				$(SRCDIR)/descriptors/gdt.o \
+				$(SRCDIR)/descriptors/gdt_helper.o \
+				$(SRCDIR)/descriptors/idt.o \
+				$(SRCDIR)/descriptors/idt_helper.o \
+				$(SRCDIR)/drivers/cpu/pic.o \
+				$(SRCDIR)/interrupts/exception.o \
+				$(SRCDIR)/interrupts/exception_helper.o \
+				$(SRCDIR)/interrupts/interrupt.o \
+				$(SRCDIR)/interrupts/interrupt_helper.o \
 				$(SRCDIR)/drivers/io/ports.o \
 				$(SRCDIR)/drivers/video/textmode.o 
 
@@ -69,6 +80,10 @@ $(ISOFILE) : $(KERNEL_IMAGE)
 run : $(ISOFILE)
 	@echo '[QEMU] Running OS...'
 	@$(QEMU) $(QEMUFLAGS) -serial stdio
+
+rund : $(ISOFILE)
+	@echo '[QEMU] Debugging OS...'
+	@$(QEMU) $(QEMUFLAGS) $(QEMUDFLAGS)
 
 PHONY: clean
 clean:

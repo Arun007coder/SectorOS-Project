@@ -1,7 +1,7 @@
 #ifndef __CONFIG_H__
 
 #define __OS_NAME "SectorOS"
-#define __OS_VERSION "0.0.1"
+#define __OS_VERSION "0.0.2"
 #define __OS_BOOTMSG "Welcome to SectorOS project"
 
 #define __TEXTMODE_TAB_SIZE 4

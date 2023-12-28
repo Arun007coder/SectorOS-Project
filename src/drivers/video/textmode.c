@@ -1,5 +1,6 @@
 #include "textmode.h"
 #include "config.h"
+#include "ports.h"
 
 typedef struct textmode_instance_struct
 {
@@ -51,6 +52,8 @@ int textmode_init()
 	ti.bg = 0;
 
 	ti.framebuffer = (uint16_t *)0xB8000;
+
+	
 
 	return 0;
 }

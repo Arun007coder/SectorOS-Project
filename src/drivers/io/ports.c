@@ -35,3 +35,8 @@ uint32_t inl(uint16_t port)
     __KERNEL_ASM("inl %1, %0" : "=a"(ret) : "Nd"(port));
     return ret;
 }
+
+void io_wait()
+{
+	outb(0x80, 0);
+}
